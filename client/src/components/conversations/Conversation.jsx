@@ -25,15 +25,15 @@ export default function Conversation({ conversation, currentUser }) {
     <div className="conversation">
       <div className="conversationIconItem">
         <img
-          className="conversationImg"
-          src={
-            user?.profilePicture
-              ? PF + user.profilePicture
-              : PF + "person/noAvatar.png"
-          }
-          alt=""
-        />
-        <span className="conversationIconBadge">{conversation.count}</span>
+            className="conversationImg"
+            src={
+              user?.profilePicture
+                ? PF + user.profilePicture
+                : PF + "person/noAvatar.png"
+            }
+            alt=""
+          />
+        {conversation.count ?  <span className="conversationIconBadge">{conversation.count}</span> : <span></span>}    
       </div>
       <span className="conversationName">{conversation.name ? conversation.name : user?.username}</span>
     </div>

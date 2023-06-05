@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
-//new conv
+//new conversation
 
 router.post("/", async (req, res) => {
   const newConversation = new Conversation({
@@ -24,8 +24,9 @@ router.get("/:userId", async (req, res) => {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
     });
+    var queryKey = "receiverInfo." + req.params.userId
     const countList = await Message.aggregate([
-      { $match: {"receiverList._id":req.params.userId} },
+      { $match: {[queryKey]:false} },
       { $group: {"_id": "$conversationId", "count":{"$sum":1}}}
     ]); 
     const countDict = {}
@@ -35,6 +36,7 @@ router.get("/:userId", async (req, res) => {
     conversation.forEach( function  (value) {
       value["count"] = countDict[value["_id"]];
     });
+    console.log("conversation",conversation)
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
