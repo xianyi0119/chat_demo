@@ -14,7 +14,6 @@ export default function Messenger() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef();
@@ -26,23 +25,30 @@ export default function Messenger() {
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
+        chatId: data.chatId
       });
+      const refreshConversations = async () => {
+        try {
+          const res = await axios.get("/conversations/" + data.receiverId);
+          setConversations(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };      
+      refreshConversations();
     });
   }, []);
 
+
+  // make your own message on the other side
   useEffect(() => {
     arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
+      currentChat?._id === arrivalMessage.chatId &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
     socket.current.emit("addUser", user._id);
-    socket.current.on("getUsers", (users) => {
-      setOnlineUsers(
-        user
-      );
-    });
   }, [user]);
 
   useEffect(() => {
@@ -77,13 +83,13 @@ export default function Messenger() {
       conversationId: currentChat._id,
     };
 
-    const receiverId = currentChat.members.find(
+    const receiverIds = currentChat.members.filter(
       (member) => member !== user._id
     );
-
     socket.current.emit("sendMessage", {
       senderId: user._id,
-      receiverId,
+      receiverIds,
+      chatId: currentChat._id,
       text: newMessage,
     });
 
@@ -93,8 +99,24 @@ export default function Messenger() {
       setNewMessage("");
     } catch (err) {
       console.log(err);
-    }
-  };
+    };
+    };
+
+    const handleClickConversation = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.get("/messages/" + currentChat?._id + "/" + user._id);
+        setMessages(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+      try {
+        const res = await axios.get("/conversations/" + user._id);
+        setConversations(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+      };
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -125,7 +147,9 @@ export default function Messenger() {
               <input placeholder="Search" className="chatMenuInput"  onChange={inputProps} />
               {conversations.map((c) => (
                 <div onClick={() => setCurrentChat(c)}>
-                  <Conversation conversation={c} currentUser={user} />
+                  <div onClick={handleClickConversation}>
+                    <Conversation conversation={c} currentUser={user} />
+                  </div>
                 </div>
               ))}
             </div>

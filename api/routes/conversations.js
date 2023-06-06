@@ -36,7 +36,7 @@ router.get("/:userId", async (req, res) => {
     conversation.forEach( function  (value) {
       value["count"] = countDict[value["_id"]];
     });
-    console.log("conversation",conversation)
+    // console.log("conversation",conversation)
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);

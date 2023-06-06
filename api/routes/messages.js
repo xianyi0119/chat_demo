@@ -42,7 +42,7 @@ router.get("/:conversationId/:userId", async (req, res) => {
     const updateResult = await Message.updateMany({
       conversationId: req.params.conversationId,
       [queryKey]:false,
-    },{"$set":{receiverInfo:{ [req.params.userId]:true}}});
+    },{"$set":{[queryKey]:true}});
     res.status(200).json(messages);
   } catch (err) {
     res.status(500).json(err);

@@ -27,7 +27,7 @@ export default function Sidebar() {
           </li>
           <li className="sidebarListItem">
             <Handshake className="sidebarIcon" />
-            <span className="sidebarListItemText">Handshake</span>
+            <span className="sidebarListItemText">Matches</span>
           </li>
         </ul>
         <hr className="sidebarHr" />

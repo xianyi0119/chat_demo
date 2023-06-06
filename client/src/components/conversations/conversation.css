@@ -4,10 +4,11 @@
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
+  background-color: rgb(59, 57, 57);
 }
 
 .conversation:hover {
-  background-color: rgb(245, 243, 243);
+  background-color: rgb(134, 129, 129);
 }
 
 .conversationImg {
@@ -36,11 +37,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .conversationName {
   font-weight: 500;
+  color:rgb(255, 254, 255)
 }
 
 @media screen and (max-width: 768px) {

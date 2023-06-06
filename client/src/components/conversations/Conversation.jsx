@@ -8,21 +8,22 @@ export default function Conversation({ conversation, currentUser }) {
 
   useEffect(() => {
     const friendIds = conversation.members.find((m) => m !== currentUser._id);
-
     const getUser = async () => {
       try {
-        console.log("friendIds",friendIds)
         const res = await axios("/users?userId=" + friendIds);
         setUser(res.data);
       } catch (err) {
         console.log(err);
       }
     };
-    getUser();
+    if (conversation.name === "")
+      {getUser();}
+    else {};
+    // getUser();
   }, [currentUser, conversation]);
 
   return (
-    <div className="conversation">
+    <div className="conversation" key={conversation._id} >
       <div className="conversationIconItem">
         <img
             className="conversationImg"

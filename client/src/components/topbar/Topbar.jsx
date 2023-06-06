@@ -1,8 +1,9 @@
 import "./topbar.css";
-import { Search, Chat} from "@mui/icons-material";
+import { Search, Help, NotificationsActive} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import moment from "moment";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
@@ -24,14 +25,13 @@ export default function Topbar() {
         </div>
       </div>
       <div className="topbarRight">
-        <div className="topbarLinks">
-          <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">Timeline</span>
-        </div>
         <div className="topbarIcons">
+          <div className="topbarTime">
+            <span >{moment().format("MMMM Do YYYY, h:mm:ss a")}</span>
+          </div>
           <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
+            <Help />
+            <NotificationsActive />
           </div>
         </div>
         

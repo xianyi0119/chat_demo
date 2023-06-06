@@ -8,6 +8,10 @@ const ConversationSchema = new mongoose.Schema(
     count:{
       type: Number,
       default: 0
+    },
+    name:{
+      type: String,
+      default: ""
     }
   },
   { timestamps: true }

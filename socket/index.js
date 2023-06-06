@@ -21,7 +21,7 @@ const getUser = (userId) => {
 
 io.on("connection", (socket) => {
   //when ceonnect
-  console.log("a user connected.");
+  console.log("a user connected.",users);
 
   //take userId and socketId from user
   socket.on("addUser", (userId) => {
@@ -30,12 +30,19 @@ io.on("connection", (socket) => {
   });
 
   //send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user?.socketId).emit("getMessage", {
-      senderId,
-      text,
+  socket.on("sendMessage", ({ senderId, receiverIds, chatId, text }) => {
+    
+    receiverIds.forEach(receiverId => {
+      const user = getUser(receiverId);
+      console.log("receiverId,",senderId, receiverIds, chatId, text,user?.socketId)
+      io.to(user?.socketId).emit("getMessage", {
+        senderId,
+        text,
+        receiverId,
+        chatId,
+      });      
     });
+
   });
 
   //when disconnect

@@ -42,7 +42,6 @@ router.get("/", async (req, res) => {
 //get a user's unread count
 router.get("/unread", async (req, res) => {
   const userId = req.query.userId;
-  console.log("userId",userId)
   try {
     var key = "receiverInfo." + userId
     const count = await Message.count({[key]:false});

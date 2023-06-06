@@ -1,9 +1,10 @@
 import "./message.css";
-import { format } from "timeago.js";
+import moment from "moment";
 
 export default function Message({ message, own }) {
   return (
     <div className={own ? "message own" : "message"}>
+      <div className="messageBottom">{message.senderName}  {moment(message.createdAt).format()}</div>
       <div className="messageTop">
         <img
           className="messageImg"
@@ -12,7 +13,7 @@ export default function Message({ message, own }) {
         />
         <p className="messageText">{message.text}</p>
       </div>
-      <div className="messageBottom">{message.senderName}  {format(message.createdAt)}</div>
+      
     </div>
   );
 }

@@ -56,12 +56,6 @@
   color: white;
 }
 
-.topbarLink {
-  margin-right: 10px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
 .topbarIcons {
   display: flex;
 }
@@ -85,6 +79,13 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
+}
+
+.topbarTime {
+  margin-right: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: pointer;
 }
 
 .topbarImg {
